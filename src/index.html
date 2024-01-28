@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Module 11 HTTP</title>
+
+    <link rel="stylesheet" href="./css/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <form id="searchForm">
+        <label for="searchInput"></label>
+        <input type="text" id="searchInput" placeholder="Search images..." />
+        <button type="submit" class="btn">Start</button>
+      </form>
+      <div id="gallery" class="gallery"></div>
+      <div id="endMessage" class="endMessage">We're sorry, but you've reached the end of search results.</div>
+      <div class="load-more-container">
+        <button class="load-more-button" id="loadMoreButton">Load more</button>
+      </div>
+      <div class="loader-container" id="loader-container">
+        <div class="loader"></div>
+      </div>
+    </div>
+    <script type="module" src="./main.js" ></script>
+  </body>
+</html>
