@@ -133,3 +133,10 @@ button {
 .endMessage {
   text-align: center;
 }
+
+.loading-text {
+  margin-top: 10px; 
+  color: #555; 
+  font-style: italic;
+  font-size: 16px;
+}

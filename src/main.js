@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
     currentSearchTerm = searchTerm;
+      clearGallery();
     showLoader(loaderContainer);
     try {
       await fetchData(currentSearchTerm);
@@ -54,6 +55,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   async function fetchData(searchTerm) {
     try {
+      showLoadingText(); 
+      
       const response = await axios.get('https://pixabay.com/api/', {
         params: {
           key: apiKey,
@@ -84,20 +87,25 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         if (currentPage > 1) {
-        const cardHeight = document.querySelector('.gallery-item').getBoundingClientRect().height;
+          const cardHeight = document.querySelector('.gallery-item').getBoundingClientRect().height;
 
-        window.scrollBy({
-          top: cardHeight * 2,
-          behavior: 'smooth',
-        });
-      }
+          window.scrollBy({
+            top: cardHeight * 2,
+            behavior: 'smooth',
+          });
+        }
       }
     } catch (error) {
       iziToast.error({
         title: 'Error',
         message: 'Failed to fetch images. Please try again later.',
       });
+    } finally {
+      hideLoadingText(); 
     }
+  }
+  function clearGallery() {
+    gallery.innerHTML = '';
   }
 
   function showEndMessage() {
@@ -110,8 +118,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
   loadMoreButton.addEventListener('click', async function () {
     currentPage++;
+    hideLoadMoreButton(); 
+    showLoadingText(); 
     await fetchData(currentSearchTerm);
+    hideLoadingText(); 
   });
+  function hideLoadMoreButton() {
+    loadMoreButton.style.display = 'none';
+  }
+
+  function showLoadMoreButton() {
+    loadMoreButton.style.display = 'block';
+  }
 
   function showLoader(loaderContainer) {
     if (loaderContainer) {
@@ -122,6 +140,21 @@ document.addEventListener('DOMContentLoaded', function () {
   function hideLoader(loaderContainer) {
     if (loaderContainer) {
       loaderContainer.style.display = 'none';
+    }
+  }
+
+  function showLoadingText() {
+    const loadingText = document.createElement('div');
+    loadingText.textContent = 'Loading images, please wait...';
+    loadingText.classList.add('loading-text');
+
+    loadMoreButton.parentNode.insertBefore(loadingText, loadMoreButton.nextSibling);
+  }
+
+  function hideLoadingText() {
+    const loadingText = document.querySelector('.loading-text');
+    if (loadingText) {
+      loadingText.remove();
     }
   }
 
